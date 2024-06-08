@@ -14,11 +14,16 @@ while True:
     if success:
         RGB_frame = cv2.cvtColor(frame,cv2.COLOR_BGR2RGB)
         result = hand.process(RGB_frame)
-        if result.multi_hand_landmarks:
-            print(len(result.multi_hand_landmarks[0].landmark))
-            for hand_landmarks in result.multi_hand_landmarks:
-                # mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
-                pass
+        if result.multi_hand_landmarks and len(result.multi_hand_landmarks) < 2:
+            hand_landmarks = result.multi_hand_landmarks[0]
+            mp_drawing.draw_landmarks(frame, hand_landmarks, mp_hands.HAND_CONNECTIONS)
+            # print([(hand_landmarks.landmark[i].x, hand_landmarks.landmark[i].y, hand_landmarks.landmark[i].z) for i in range(5, 9)])
+            pointer_tip = hand_landmarks.landmark[8]
+            _x = pointer_tip.x
+            _y = pointer_tip.y
+            _z = pointer_tip.z
+            print(_x, _y, _z)
+            
         cv2.imshow("capture image", frame)
         if cv2.waitKey(1)==ord('q'):
             break
