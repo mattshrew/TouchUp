@@ -1,9 +1,13 @@
 import cv2
 import numpy as np
+from time import perf_counter as pf
 
 video = cv2.VideoCapture(0)
 
-while True:
+start = pf()
+largests = [None] * 3
+largest_areas = [-1e9] * 3
+while True and pf() - start < 10:
     ret, frame = video.read()
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -27,8 +31,33 @@ while True:
                 max_area = area
                 screen_cnt = approx
 
+    if max_area > largest_areas[-1]:
+       largest_areas.pop()
+       largests.pop()
+       largest_areas.append(max_area)
+       largest_areas.sort(reverse=True)
+       largests.insert(largest_areas.index(max_area), screen_cnt)
+
     # Draw the screen contour
     cv2.drawContours(frame, [screen_cnt], -1, (0, 255, 0), 3)
-    print(screen_cnt)
+    # print(screen_cnt)
 
     cv2.imshow("Object Detection", frame)
+
+print([list(largests[-1][i][0]) for i in range(len(largests[-1]))])
+
+while True:
+    ret, frame = video.read()
+
+    if cv2.waitKey(1) & 0xFF == ord("q"):
+        break
+
+    cv2.drawContours(frame, [largests[-1]], -1, (255, 0, 0), 3)
+
+    for i in range(len(largests[-1])):
+        # print(largest[i][0])
+        cv2.circle(frame, largests[-1][i][0], 3, (0,0,255), cv2.FILLED)
+
+    cv2.imshow("Object Detection", frame)
+
+"""[[353, 270], [344, 407], [580, 450], [585, 282]]"""
