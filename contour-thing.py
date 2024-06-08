@@ -1,13 +1,13 @@
 import cv2
 import numpy as np
-from time import perf_counter as pf
+import time
 
 video = cv2.VideoCapture(0)
 
-start = pf()
+start = time.perf_counter()
 largests = [None] * 3
 largest_areas = [-1e9] * 3
-while True and pf() - start < 10:
+while True and time.perf_counter() - start < 10:
     ret, frame = video.read()
 
     if cv2.waitKey(1) & 0xFF == ord("q"):
@@ -58,6 +58,9 @@ while True:
 
     cv2.imshow("Object Detection", frame)
 
-print([(largests[-1][i][0][0] / frame.shape[1], largests[-1][i][0][1] / frame.shape[0]) for i in range(len(largests[-1]))])
+    time.sleep(5)
 
-"""[[353, 270], [344, 407], [580, 450], [585, 282]]"""
+points_for_plane = [[largests[-1][i][0][0] / frame.shape[1], largests[-1][i][0][1] / frame.shape[0], 0] for i in range(len(largests[-1]))]
+points_for_plane[0][2] = -0.1
+points_for_plane[0][2] = -0.1
+points_for_plane[0][2] = -0.1

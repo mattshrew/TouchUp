@@ -4,7 +4,7 @@ import time
 from pynput.mouse import Button, Controller
 import pyautogui as gui
 
-cap = cv2.VideoCapture(2)
+cap = cv2.VideoCapture(0)
 
 mpHands = mp.solutions.hands
 hands = mpHands.Hands(max_num_hands = 2, min_detection_confidence = 0.75, model_complexity=1)
