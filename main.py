@@ -1,22 +1,8 @@
 import pystray
 from pystray import MenuItem as item
 from PIL import Image, ImageDraw
-import tkinter as tk
-from tkinter import messagebox
-
 from holo import holo_touch
 from any import any_touch
-
-# Function for Option 2: Show a message box
-# def show_messagebox():
-#     root = tk.Tk()
-#     root.withdraw()  # Hide the root window
-#     messagebox.showinfo("Option 2", "Option 2 selected.")
-#     root.destroy()
-
-# # Function for Option 3: Print to console
-# def print_message():
-#     print("Option 3 selected.")
 
 # Function to create an icon
 def create_image():
