@@ -44,8 +44,6 @@ while True and pf() - start < 10:
 
     cv2.imshow("Object Detection", frame)
 
-print([list(largests[-1][i][0]) for i in range(len(largests[-1]))])
-
 while True:
     ret, frame = video.read()
 
@@ -59,5 +57,7 @@ while True:
         cv2.circle(frame, largests[-1][i][0], 3, (0,0,255), cv2.FILLED)
 
     cv2.imshow("Object Detection", frame)
+
+print([(largests[-1][i][0][0] / frame.shape[1], largests[-1][i][0][1] / frame.shape[0]) for i in range(len(largests[-1]))])
 
 """[[353, 270], [344, 407], [580, 450], [585, 282]]"""
