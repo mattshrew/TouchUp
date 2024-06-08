@@ -4,7 +4,7 @@ import time
 from pynput.mouse import Button, Controller
 import pyautogui as gui
 
-cap = cv2.VideoCapture(0)
+cap = cv2.VideoCapture(2)
 
 mpHands = mp.solutions.hands
 hands = mpHands.Hands(max_num_hands = 2, min_detection_confidence = 0.75, model_complexity=1)
@@ -27,28 +27,29 @@ first = True
 # Arrays to store calculations for last 6 frames for the purpose of creating moving averages to smooth out mouse motion
 # (Sacrifices a bit of latency for smoothness)
 xDiffs = []
-for i in range(6):
+for i in range(8):
 	xDiffs.append(0)
 
 yDiffs = []
-for i in range(6):
+for i in range(8):
 	yDiffs.append(0)
 
 leftStart = time.time()
 rightStart = time.time()
 
-# Prevents the mouse from getting stuck in the edges of the screen
 while True:
+
+	# Prevents the mouse from getting stuck in the edges of the screen
 	mouseX, mouseY = mouse.position
-	if mouseX > 1680:
-		mouse.position = (1680, mouseY)
-		mouseX = 1680
+	if mouseX > sWidth:
+		mouse.position = (sWidth, mouseY)
+		mouseX = sWidth
 	if mouseX < 0:
 		mouse.position = (0, mouseY)
 		mouseX = 0
-	if mouseY > 1050:
-		mouse.position = (mouseX, 1050)
-		mouseY = 1050
+	if mouseY > sHeight:
+		mouse.position = (mouseX, sHeight)
+		mouseY = sHeight
 	if mouseY < 0:
 		mouse.position = (mouseX, 0)
 		mouseY = 0
@@ -94,7 +95,6 @@ while True:
 			# print("2 hands!")
 
 			if scrollxdif1 < 0.03 and scrollydif1 < 0.03:
-				print("scrolling")
 				mouse.scroll(0, -3)
 
 			if scrollxdif2 < 0.03 and scrollydif2 < 0.03:
@@ -178,7 +178,7 @@ while True:
 		# print("no hands in frame")
     
     
-	if cv2.waitKey(1) & 0xFF == ord("q"):
-		break
+	# if cv2.waitKey(1) & 0xFF == ord("q"):
+	# 	break
 
 	# cv2.imshow("Object Detection", frame)
