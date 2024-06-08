@@ -33,7 +33,8 @@ def holo_touch():
     rightStart = time.time()
 
     while True:
-
+        with open("stopHolo.txt", "r") as f:
+            if len(f.read()) > 0: break
         # Prevents the mouse from getting stuck in the edges of the screen
         mouseX, mouseY = mouse.position
         if mouseX > sWidth:
