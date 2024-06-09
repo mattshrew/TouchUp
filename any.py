@@ -1,13 +1,13 @@
 import cv2
 import numpy as np
 import mediapipe as mp
-from collections import deque
 from pynput.mouse import Controller, Button
 import time
 import math
 
 STABILITY_FRAMES = 5
 CURSOR_DELAY = 0.1
+EMA_ALPHA = 0.2  # Smoothing factor for EMA, 0 < EMA_ALPHA <= 1
 
 def heightf(length):
     return (2546 + -4.32 * length + 2.35 * 10 ** (-3) * (length ** 2)) - 608
@@ -24,12 +24,10 @@ def any_touch():
     mouse = Controller()
 
     line_found = False
-    line_positions = deque(maxlen=STABILITY_FRAMES)
+    line_positions = []
     stable_avg_top_row_y = None
-    above_line_deque = deque(maxlen=20)
+    above_line_deque = []
     click = False
-    x_positions = []
-
     x_origin, keyboard_width = None, None
     start_time = time.time()
     last_move_time, click_time = time.time(), None
@@ -66,10 +64,13 @@ def any_touch():
 
     print("done")
 
-    while True:
+    # Initialize smoothed x and y positions
+    smoothed_x, smoothed_y = None, None
 
+    while True:
         with open("stopHolo.txt", "r") as f:
-            if len(f.read()) > 0: break 
+            if len(f.read()) > 0:
+                break 
 
         ret, frame = cap.read()
         if not ret:
@@ -100,17 +101,24 @@ def any_touch():
 
             above_line = index_finger_y < stable_avg_top_row_y
             above_line_deque.append(above_line)
+            if len(above_line_deque) > 20:
+                above_line_deque.pop(0)
 
-            if len(above_line_deque) >= 2 and not above_line_deque[-2] and above_line_deque[-1]:
-                x_positions.append(scaled_index_finger_x)
+            if smoothed_x is None or smoothed_y is None:
+                smoothed_x, smoothed_y = scaled_index_finger_x, scaled_index_finger_y
+            else:
+                # Update smoothed x and y positions using EMA
+                smoothed_x = EMA_ALPHA * scaled_index_finger_x + (1 - EMA_ALPHA) * smoothed_x
+                smoothed_y = EMA_ALPHA * scaled_index_finger_y + (1 - EMA_ALPHA) * smoothed_y
 
             current_time = time.time()
             if current_time - last_move_time > CURSOR_DELAY:
-                mouse.position = (scaled_index_finger_x, scaled_index_finger_y)
+                # Move the cursor using the smoothed x and y positions
+                mouse.position = (int(smoothed_x), int(smoothed_y))
                 last_move_time = current_time
 
             if len(above_line_deque) >= 5:
-                if all(above_line_deque[i] for i in range(-5, 0)):
+                if all(above_line_deque[-5:]):
                     if not click:
                         click = True
                         cv2.circle(frame, (index_finger_x, index_finger_y), 5, (0, 255, 0), -1)
@@ -121,10 +129,7 @@ def any_touch():
                         click_time = None
 
             if click and time.time() - click_time > 0.5:
-                if x_positions:
-                    mouse.click(Button.left, 1)
-            elif not click and click_time:
-                click_time = None
+                mouse.click(Button.left, 1)
 
         cv2.line(frame, (0, stable_avg_top_row_y), (frame.shape[1], stable_avg_top_row_y), (255, 0, 0), 2)
         cv2.imshow('Keyboard Contour Detection', frame)
@@ -133,7 +138,7 @@ def any_touch():
             break
 
     cap.release()
-    cv2.destroyAllWindows()
+    cv2.destroyAllWindows
 
 if __name__ == "__main__":
     any_touch()
