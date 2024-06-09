@@ -18,7 +18,7 @@ def heightf(length):
 def calculate_distance(x1, y1, x2, y2):
     return math.sqrt((x2 - x1)**2 + (y2 - y1)**2)
 
-def main():
+def any_touch():
     cap = cv2.VideoCapture(0)
 
     line_found = False  # Flag to indicate if the blue horizontal line has been found
@@ -209,4 +209,4 @@ def main():
     cv2.destroyAllWindows()
 
 if __name__ == "__main__":
-    main()
+    any_touch()
