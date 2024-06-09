@@ -5,7 +5,7 @@ from pynput.mouse import Button, Controller
 import pyautogui as gui
 
 def holo_touch():
-    cap = cv2.VideoCapture(0)
+    cap = cv2.VideoCapture(2)
 
     mpHands = mp.solutions.hands
     hands = mpHands.Hands(max_num_hands = 2, min_detection_confidence = 0.75, model_complexity=1)
@@ -165,4 +165,3 @@ def holo_touch():
         # 	break
 
         # cv2.imshow("Object Detection", frame)
-

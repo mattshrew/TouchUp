@@ -1,7 +1,7 @@
 import pystray
 from pystray import MenuItem as item
 from PIL import Image, ImageDraw
-# from threading import Thread
+from threading import Thread
 from platform import system
 
 from holo import holo_touch
@@ -21,9 +21,9 @@ def on_clicked(icon, item):
             f.write("stop")
     elif item == "Option 2":
         open("stopHolo.txt", "w").close()
-        # t1 = Thread(target=holo_touch)
-        # t1.start()
-        holo_touch()
+        t1 = Thread(target=holo_touch)
+        t1.start()
+        # holo_touch()
     elif item == "Option 3":
         open("stopHolo.txt", "w").close()
         # t2 = Thread(target=any_touch)
