@@ -24,7 +24,9 @@ def on_clicked(icon, item):
         t1.start()
         # holo_touch()
     elif item == "Option 3":
-        any_touch()
+        t2 = Thread(target=any_touch)
+        t2.start()
+        # any_touch()
 
 # Create the tray icon
 icon = pystray.Icon("test_icon")

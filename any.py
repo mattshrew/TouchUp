@@ -67,6 +67,10 @@ def any_touch():
     print("done")
 
     while True:
+
+        with open("stopHolo.txt", "r") as f:
+            if len(f.read()) > 0: break 
+
         ret, frame = cap.read()
         if not ret:
             continue
