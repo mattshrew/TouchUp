@@ -36,3 +36,15 @@ Any-Touch is a modular computer add-on that enables any device to become touch-s
 We hope to reduce the physical footprint of our product by switching the phone out for 2 Raspberry Pis, or just two cameras and a chip. We would also love some more time to train our own model to better detect the distance between our fingers and the computer screen.
 
 **Try it out!**
+To use TouchUp,
+1. Clone the GitHub repository here.
+2. Install the required dependencies.
+3. Run main.py.
+4. Click the app on the tray and select Holo-Touch or Any-Touch!
+Holo-Touch Gestures:
+ - Primary Hand:
+   - Left Click: thumb to index finger
+   - Right Click: thumb to middle finger
+ - Secondary Hand:
+   - Scroll Down: thumb to index finger
+   - Scroll Up: thumb to middle finger
