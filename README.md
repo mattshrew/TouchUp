@@ -37,22 +37,10 @@ We hope to reduce the physical footprint of our product by switching the phone o
 
 **Try it out!**
 To use TouchUp,
-1. Clone the GitHub repository here.
-   a. ```console git clone https://github.com/mattshrew/TouchUp.git ```
-2. Install the required dependencies.
-   a. OpenCV
-   b. Mediapipe
-   c. Pynput
-   d. Pyautogui
-   e. Time
-   f. Math
-   g. Numpy
-   h. Pystray
-   i. PIL
-   j. Threading
-   k. Platform
-4. Run main.py.
-5. Click the app on the tray and select Holo-Touch or Any-Touch!
+1. Clone the GitHub repository : ```console git clone https://github.com/mattshrew/TouchUp.git ```
+2. Install the required dependencies: OpenCV, Mediapipe, Pynput, Pyautogui, Time, Math, Numpy, Pystray, PIL, Threading, Platform
+3. Run main.py.
+4. Click the app on the tray and select Holo-Touch or Any-Touch!
 Holo-Touch Gestures:
  - Primary Hand:
    - Left Click: thumb to index finger
